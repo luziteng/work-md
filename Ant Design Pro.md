@@ -68,6 +68,8 @@ b:在render()中return（<PageHeaderWrapper>标签）；此时新页面就会有
 
 c:如果你不想要页头，可以在`src/components/PageHearderWrapper/index.js`中将`<MenuContext.Consumer>` 标签注释掉，以及相应的配置引入。！！！记住只能把`<MenuContext.Consumer>`标签注释掉，否则你想在页面中添加任何结构都无法显示。
 
+需要页头时使用<PageHeaderWrapper>包住所有标签
+
 d:去除head UI(包含消息，头像，缩略图、搜索等)。在src/layouts/Header.js中将HeaderDom标签及相应的代码注释。
 
 e:如果你想加入一些ant design的组件，可以先在首部添加
@@ -334,6 +336,25 @@ showModal = (record) => {
 
 最简单的方法还是使用post请求，因为get请求会在URL上拼接，不允许有特殊字符。
 
+##### 8、form表单输入框的正则表达式写法
+
+```
+{getFieldDecorator('userIPhone',{
+                          initialValue:phone,
+                          validateTrigger:'onBlur',
+                          rules: [{ 
+                            required: true,
+                            whitespace:true, 
+                            message: '请输入手机号码', 
+                          },
+                          {
+                            pattern: /^1[345789]\d{9}$/,
+                            message: '号码格式不正确', // 正则提示
+                        },],})(<Input placeholder='请输入手机号码' maxLength={11} />)}
+```
+
+
+
 ### **9、modal对话框问题**
 
 1、使用`destroyOnClose`属性在关闭时销毁 Modal 里的子元素，重打开modal时便会重新渲染。
@@ -363,7 +384,9 @@ showModal = (record) => {
 ```
 function disabledDate(current) {
   console.log(current);
-  return current && current < moment().endOf('day');
+  return current && current < moment().endOf('day');//今天以前的日期不可选，包括今天
+  return current > moment().startOf('day');//今天以前的日期不可选，包括今天
+  return current < moment().startOf('day');// 今天以前的日期不可选，不包括今天
 }
 ```
 
@@ -384,6 +407,21 @@ timeChange =(time)=>{
   let commonTime = unixTimestamp.toLocaleString();
   Date.prototype.toLocaleString = function() {
     return this.getFullYear() + '/' + (this.getMonth() + 1) + '/' + this.getDate() + ' ' + this.getHours() + ":" + this.getMinutes() + ":" + this.getSeconds();
+   };
+   return commonTime;
+}
+```
+
+```
+// 时间转换
+timeChange =(time)=>{
+  let unixTimestamp = new Date( time ) ;
+  let commonTime = unixTimestamp.toLocaleString();
+  Date.prototype.toLocaleString = function() {
+    let h = this.getHours() < 10 ? '0'+this.getHours() : this.getHours();
+    let m = this.getMinutes() < 10 ? '0' + this.getMinutes() : this.getMinutes();
+    let s = this.getSeconds() < 10 ? '0' + this.getSeconds() : this.getSeconds();
+    return this.getFullYear() + '/' + (this.getMonth() + 1) + '/' + this.getDate() + ' ' + h + ":" + m + ":" + s;
    };
    return commonTime;
 }
