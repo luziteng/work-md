@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+    html, body, div, h1, h2, h3, h4, h5, h6, p, span, img, input {
+    margin: 0;
+    padding: 0;
+    }
+        .container{
+            width: 100%;    
+            height:900px;
+            position: relative;
+            background:url(../img/291710.jpg)center top;
+        }
+        .content{
+            width: 800px;
+            height: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -200px;
+            margin-left: -400px;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            color: rgba(0,0,0,0.8);
+        }
+        .content {
+            width: 800px;
+            height: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -200px;
+            margin-left: -400px;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+            z-index: 2;
+            padding: 50px;
+            box-sizing: border-box;
+        }
+
+        .content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            -webkit-filter: blur(20px);
+            -moz-filter: blur(20px);
+            -ms-filter: blur(20px);
+            -o-filter: blur(20px);
+            filter: blur(20px);
+            z-index: -3;
+            margin: -30px;
+            background-image: url(../img/291710.jpg);
+            background-position: center top;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .content h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            text-indent: 2em;
+            line-height: 1.7;
+        }
+                
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>齐天大圣</h1>   
+            <p>孙悟空是中国著名的神话人物之一，出自四大名著之《西游记》。祖籍东胜神州，由开天辟地以来的仙石孕育而生，因带领群猴进入水帘洞而成为众猴之王，尊为 “美猴王”。后经千山万水拜须菩提祖师为师学艺，得名孙悟空，学会地煞数七十二变、筋斗云、长生不老等高超的法术。神通初成的孙悟空先大闹龙宫取得如意金箍棒，又大闹地府勾去生死簿，后被天界招安，封为弼马温。得知职位低卑后生气返回花果山，并战胜托塔天王和三太子的讨伐，迫使玉皇大帝封其为齐天大圣，并在天庭建齐天大圣府，奉旨管理蟠桃园。因醉酒搅乱王母的蟠桃盛会，偷吃太上老君的金丹，炼成了金刚不坏之躯，阴差阳错间在太上老君的炼丹炉中炼就火眼金睛。之后大闹天宫，十万天兵天将、四大天王、二十八星宿对其围剿亦不能将其打败，后来在与如来的打赌斗法中失利，被压在如来舍去一手化作的五行山（唐时更名两界山）下五百余年悔过自新。</p>  
+        </div>
+    </div>
+</body>
+</html>

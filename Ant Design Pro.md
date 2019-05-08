@@ -43,17 +43,7 @@ b、在my-project文件中安装依赖。`$ npm install`
 
 c、 启动服务器代码:`$ npm start` 。启动完成后会自动打开浏览器访问 [http://localhost:8000](http://localhost:8000/)，你看到分析页面。 
 
-### 2、改变首次加载的默认路由
 
-因为在config/router.config.js中它默认设置为跳转BasicLayout：基础页面布局。包含了头部导航，侧边栏和通知栏 。由于@2.1版本是12月份才出的，网上除了官方文档，也没有其他资料文档。官方给出的方案是：
-
-![1546676541957](C:\Users\lp\AppData\Local\Temp\1546676541957.png)
-
-我就是天真的信了官方文档，结果一直报错，也没有什么用。
-
-![1546676687149](C:\Users\lp\AppData\Local\Temp\1546676687149.png)
-
-事实上在`./src/pages/.umi/router.js`中是可以找到test的。
 
 ### 3、新建页面，添加基础布局
 
@@ -198,15 +188,66 @@ C:在`src/models/login.js`中操作拿到的数据。这里有四个关键点，
     })
 ```
 
+8、如果直接在页面中拿到数据则没有数据缓存的问题，写法如下：
+
+models层
+
+```
+*gainPeople({ payload, callback }, { call }) {
+            const response = yield call(applyPeopleMagess, payload);
+            if (response.code === 200) {
+                if (callback && typeof callback === 'function') {
+                    callback(response); // 返回结果
+                }
+            } else if (callback && typeof callback === 'function') {
+                callback(response); // 返回结果
+            }
+        },
+```
+
+页面：
+
+```
+ callback:(response) =>{
+          if(response.code===200){
+            if(response.data){
+              const {studentName,studentPhone,studentIdCard,city,province,workTime,haircutPrice,hotDyePrice,performance,works,question} =response.data;
+              let address = '';
+              if(city===province){
+                address=city
+              }else{
+                address=city+province;
+              }
+              let photo = works;
+```
+
 
 
 ### 5、表格问题
 
 1、表格中的dataIndex的命名对应后端数据字段命名，这样表格的数据就会自行渲染。
 
-2、表格排序问题，使用表格API的onChange：分页、排序、筛选变化时触发。function函数必须把三个文档中的三个参数都带上，否则会拿不到结果，打印出来的参数为空。
+2、表格排序问题，使用表格API的onChange：分页、排序、筛选变化时触发。function函数中的各个参数必须遵循官方API的写法，`Function(pagination, filters, sorter, extra: { currentDataSource: [] })`，各个参数的顺序不能打乱，否则会拿不到结果，打印出来的参数为空。
 
-![1548661411837](C:\Users\lp\AppData\Roaming\Typora\typora-user-images\1548661411837.png)
+```
+    handleTableChange = (pagination) => {
+      const { 
+        dispatch,course
+      } = this.props;
+      const {peopleNum} =this.state;
+      const {courseId} = course;
+      dispatch({
+        type: 'course/gainDividePeople',
+        payload: {
+          courseUid:courseId,
+          schemeId:peopleNum,
+          page: pagination.current,
+          size:5,
+        }
+      });
+    }       
+            
+```
 
 3、表格分页栏属性的几种方法：
 
@@ -220,15 +261,55 @@ C:在`src/models/login.js`中操作拿到的数据。这里有四个关键点，
 
 注意：orgsPage为后端传回来的数据
 
-![1551238455991](C:\Users\lp\AppData\Roaming\Typora\typora-user-images\1551238455991.png)
+```
+  const {pageNum,pageSize,totalCount,} = orgsPage;
+          const paginationProps ={
+            current:pageNum,
+            pageSize,
+            total:totalCount,
+            hideOnSinglePage:true,
+          }
+```
 
-![1551238514787](C:\Users\lp\AppData\Roaming\Typora\typora-user-images\1551238514787.png)
+```
+  <Table
+      columns={columns}
+      dataSource={list}
+      loading={loading}
+      onChange={this.handleTableChange}
+      rowKey={record => record.organizeUid}
+      pagination={paginationProps}
+  />
+```
+
+
 
 ### 6、标签页问题
 
 1、Tabs标签切换页去掉底下border===》tabrStyle={{border:0}}
 
-2、在选项卡头显示文字或者徽标数，使用文档中的Tabs.TabPan属性tab;`tab={<Badge dot offset={[4,0]}>分成规则</Badge>}`
+2、在选项卡头显示文字或者徽标数，使用文档中的Tabs.TabPan属性tab;
+
+```
+{
+    shareSchemeDetail==='0'? 
+    <TabPanes
+    key='3'
+    style={{fontSize:16}}
+    tab={
+    <span>分成规则<Badge dot offset={[0,-6]} /></span>}
+    ><CourseDivide />
+    </TabPanes>:
+    <TabPanes 
+    tab="分成规则" 
+    key='3' 
+
+    ><CourseDivide />
+    </TabPanes>
+}
+```
+
+
 
 ### 7、标签问题
 
@@ -324,6 +405,49 @@ showModal = (record) => {
 
 在form表单中给cascader设置初始值时，必须为string字符。不管后端给的为code码还是string，最后都要设为string。后端给的数据为string数组时，要给cascader设置为`fieldNames={{value:'label'}}`，不然会出现初始值为空白，渲染不出来的情况。
 
+​	配合China-division使用方式，首先安装China-division包：`npm install china-division`
+
+接着在`src/components`路径下创建ChineseMap文件夹，新建文件cascader-address-options.js;配置以下代码：
+
+```
+import provinces from 'china-division/dist/provinces.json';
+import cities from 'china-division/dist/cities.json';
+import areas from 'china-division/dist/areas.json';
+
+areas.forEach((area) => {
+  const matchCity = cities.filter(city => city.code === area.cityCode)[0];
+  if (matchCity) {
+    matchCity.children = matchCity.children || [];
+    matchCity.children.push({
+      label: area.name,
+      value: area.code,
+    });
+  }
+});
+
+cities.forEach((city) => {
+  const matchProvince = provinces.filter(province => province.code === city.provinceCode)[0];
+  if (matchProvince) {
+    matchProvince.children = matchProvince.children || [];
+    matchProvince.children.push({
+      label: city.name,
+      value: city.code,
+      children: city.children,
+    });
+  }
+});
+
+const options = provinces.map(province => ({
+  label: province.name,
+  value: province.code,
+  children: province.children,
+}));
+
+export default options;
+```
+
+在使用到行政地址的文件中引入cascader-address-options.js文件；使用：`<Cascader options={options} fieldNames={{value:'label'}} placeholder='点击选择机构地址' />`。如果`import provinces from 'china-division/dist/provinces.json';`的时候，并没有把数据引用过来，返回值是一个{}；则因为没有json-loader，webpack打包不识别json文件，npm install json-loader后再webpack里配置下就ok了
+
 ##### 6、设置form表单中input、select等各种输入框的value长度，`maxLength={30}`（maxLength=number）
 
 ##### 7、form表单输入框输入特殊字符，报错400参数错误的问题
@@ -376,6 +500,8 @@ showModal = (record) => {
         name:name||'',
       }]
 ```
+
+3、设置headers参数：需要使用两个大括号
 
 ### 11、时间日期选择框问题
 
