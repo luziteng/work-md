@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+        /*向上*/
+        .triangle_border_up{
+            width:0;
+            height:0;
+            border-width:0 30px 30px;
+            border-style:solid;
+            border-color:transparent transparent #333;/*透明 透明  灰*/
+            margin:40px auto;
+            position:relative;
+        }
+        .triangle_border_up span{
+            display:block;
+            width:0;
+            height:0;
+            border-width:0 28px 28px;
+            border-style:solid;
+            border-color:transparent transparent #fc0;/*透明 透明  黄*/
+            position:absolute;
+            top:0px;
+            left:0px;
+        }
+        /*向下*/
+        .triangle_border_down{
+            width:0;
+            height:0;
+            border-width:30px 30px 0;
+            border-style:solid;
+            border-color:#333 transparent transparent;/*灰 透明 透明 */
+            margin:40px auto;
+            position:relative;
+        }
+        .triangle_border_down span{
+            display:block;
+            width:0;
+            height:0;
+            border-width:28px 28px 0;
+            border-style:solid;
+            border-color:#fc0 transparent transparent;/*黄 透明 透明 */
+            position:absolute;
+            top:0px;
+            left:0px;
+        }
+        /*向左*/
+        .triangle_border_left{
+            width:0;
+            height:0;
+            border-width:30px 30px 30px 0;
+            border-style:solid;
+            border-color:transparent #333 transparent transparent;/*透明 灰 透明 透明 */
+            margin:40px auto;
+            position:relative;
+        }
+        .triangle_border_left span{
+            display:block;
+            width:0;
+            height:0;
+            border-width:28px 28px 28px 0;
+            border-style:solid;
+            border-color:transparent #fc0 transparent transparent;/*透明 黄 透明 透明 */
+            position:absolute;
+            top:0px;
+            left:0px;
+        }
+        /*向右*/
+        .triangle_border_right{
+            width:0;
+            height:0;
+            border-width:30px 0 30px 30px;
+            border-style:solid;
+            border-color:transparent transparent transparent #333;/*透明 透明 透明 灰*/
+            margin:40px auto;
+            position:relative;
+        }
+        .triangle_border_right span{
+            display:block;
+            width:0;
+            height:0;
+            border-width:28px 0 28px 28px;
+            border-style:solid;
+            border-color:transparent transparent transparent #fc0;/*透明 透明 透明 黄*/
+            position:absolute;
+            top:0px;
+            left:0px;
+        }
+
+        #box{
+            margin:20px auto;
+            width: 20px;
+            height: 20px;
+            border-top:40px solid yellow;
+            border-right: 40px solid blue;
+            border-bottom:40px solid green;
+            border-left:40px solid pink;
+            background: red;
+        }
+        #triangle{
+            margin:20px auto;
+            /*不能省略宽高*/
+            width: 0px;
+            height: 0px;
+            border-top:40px solid yellow;
+            border-right: 40px solid blue;
+            border-bottom:40px solid green;
+            border-left:40px solid pink;
+            /*background: red;*/
+        }
+        #up_triangle{
+            margin:20px auto;
+            width: 0px;
+            height: 0;
+            border-top:40px solid yellow;
+            border-right: 40px solid transparent;
+            border-bottom:40px solid transparent;
+            border-left:40px solid transparent;
+        }
+
+        #angle_triangle{
+            margin:20px auto;
+            width:0;
+            height:0;
+            border-top:40px solid cyan;
+            border-left:40px solid transparent;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 向上的三角形 -->
+    <div class="triangle_border_up">
+        <span></span>
+    </div>
+                                                          
+    <!-- 向下的三角形 -->
+    <div class="triangle_border_down">
+        <span></span>
+    </div>
+                                                          
+    <!-- 向左的三角形 -->
+    <div class="triangle_border_left">
+        <span></span>
+    </div>
+                                                          
+    <!-- 向右的三角形 -->
+    <div class="triangle_border_right">
+        <span></span>
+    </div>
+
+
+    <!-- 以上介绍的是三角形的两种不同方式 ，
+    下面根据代码简单介绍三角形的原理 
+    CSS三角形原理是：元素高度宽度为0，且没有下边框，左右边框透明即可。-->
+
+    <!-- 三角形的由来 -->
+    <div id="box"></div>
+    <!-- 在这一块就能清楚的看出border这个属性的划分 -->
+    <div id='triangle'></div>
+
+    <!-- 设置透明度得到三角形 -->
+    <div id='up_triangle'></div>
+    
+    <!-- 直角三角形 -->
+    <div id='angle_triangle'></div>
+
+</body>
+</html>
