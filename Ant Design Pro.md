@@ -553,6 +553,89 @@ timeChange =(time)=>{
 }
 ```
 
+### 12页面跳转传参
+
+#### 方法一：各个页面同用一个model层，在model层中完成跳转。
+
+例如：在跳转时实现存储数据，使用方法跳转。缺点：会有model层数据存储的，处理不好会有各种bug，无法进行刷新，刷新后存储的数据丢失。
+
+```
+       // 机构详情的ID  model层
+       import {routerRedux} from 'dva/router';
+       
+        *gainOrgUid({payload}, {put,}){
+            yield put({
+                type: 'getId',
+                payload
+                
+            })
+
+            yield put(
+                routerRedux.push('/organization/orgdetail')
+            )
+        },
+        
+        // js层
+         sendUid = (record) => {
+          const { dispatch} = this.props;
+          const organizeId = record.organizeUid;
+          dispatch({
+            type: 'organization/gainOrgUid',
+            payload: {
+              organizeId,
+              tabsKey:'1',
+              })
+          }
+        
+```
+
+#### 	方法二：在URL上传递参数。页面刷新不会引起参数丢失。
+
+首先在router.config.js中配置要跳转路由的参数。例如：
+
+```
+ {
+        path:'/lineclass/coursedetail/:id/:orgid/:tabsKey',
+        name:'课程详情',
+        component:'./LineClass/Course/Coursedetails',
+        hideInMenu: true,
+  },
+  转递多个参数
+```
+
+在该路由对应的页面中拿到参数
+
+```
+ const id = this.props.match.params.id;
+ const organzitionId = this.props.match.params.orgid;
+ const tabsKey = this.props.match.params.tabsKey;
+```
+
+如果在该页面中引入其他组件，也需要URL上的参数，采取父传子的方式；
+
+在父组件中：
+
+```
+  constructor(props){
+    super(props)
+    this.state={
+      id:this.props.match.params.id,
+      orgId:this.props.match.params.orgid
+    }
+  }
+
+```
+
+引入的组件赋予参数
+
+```
+  <TabPanes tab="课程管理" key='1'><CourseManage courseId={this.state.id} organizeId={this.state.orgId} /> </TabPanes>
+```
+
+在子组件页面拿到参数的方式，直接通过this.props.参数，就可以拿到。
+
+父传子 ｛…props｝直接继承爸爸所有props
+
 
 
 # Ant design Pro 错误笔记
