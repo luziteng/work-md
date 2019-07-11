@@ -668,6 +668,48 @@ less文件中：
         }
 ```
 
+#### 方法二：className中使用使用函数，进行命名
+
+页面中：
+
+```
+    <a className={isActive('today')} onClick={() => selectDate('today')}>
+                    今日
+                    </a>
+                    <a className={isActive('week')} onClick={() => selectDate('week')}>
+                    本周
+                    </a>
+                    <a className={isActive('month')} onClick={() => selectDate('month')}>
+                    本月
+                    </a>
+                    <a className={isActive('year')} onClick={() => selectDate('year')}>
+                    全年
+                    </a>
+     </div>
+```
+
+函数：进行操作，并返回命名的名称
+
+```
+  isActive = type => {
+    // console.log(type);
+    const { rangePickerValue } = this.state;
+    const value = getTimeDistance(type);
+    if (!rangePickerValue[0] || !rangePickerValue[1]) {
+      return '';
+    }
+    if (
+      rangePickerValue[0].isSame(value[0], 'day') &&
+      rangePickerValue[1].isSame(value[1], 'day')
+    ) {
+      // console.log( rangePickerValue[0].isSame(value[0], 'day'))
+      // console.log(styles.currentDate);
+      return styles.currentDate;
+    }
+    return '';
+  };
+```
+
 
 
 # Ant design Pro 错误笔记
