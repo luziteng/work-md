@@ -636,6 +636,38 @@ timeChange =(time)=>{
 
 父传子 ｛…props｝直接继承爸爸所有props
 
+### 13、ant design pro动态添加样式
+
+#### 	方法一：给标签多个类名
+
+页面编写：
+
+```
+ <li 
+     className={`${styles.initialLi} ${item.id === tabsKey ? styles.active}` : ''}
+     key={item.id} 
+     onClick={() => {this.itemNav(item.id)}}
+     >
+     {item.title} <div className={styles.activeBorder} />
+  </li>
+```
+
+less文件中：
+
+```
+   .initialLi{
+          float: left;
+          padding:0 18px;
+          &.active{
+            color:#008AFF;
+            .activeBorder{
+              margin:0 5px;
+              border-bottom:2px solid #008AFF;
+            }
+          }
+        }
+```
+
 
 
 # Ant design Pro 错误笔记
