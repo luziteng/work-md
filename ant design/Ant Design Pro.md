@@ -286,7 +286,7 @@ models层
 
 ### 6、标签页问题
 
-1、Tabs标签切换页去掉底下border===》tabrStyle={{border:0}}
+1、Tabs标签切换页去掉底下border===》tabBarStyle={{border:0}}
 
 2、在选项卡头显示文字或者徽标数，使用文档中的Tabs.TabPan属性tab;
 
@@ -552,6 +552,8 @@ timeChange =(time)=>{
    return commonTime;
 }
 ```
+
+4、ant design 的日期选择框传给后端的数据为毫秒数。如果需要转化可用：`.format('YYYY-MM-DD hh:mm:ss')`设为年月日时分秒
 
 ### 12页面跳转传参
 
