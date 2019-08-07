@@ -477,7 +477,11 @@ export default options;
                         },],})(<Input placeholder='请输入手机号码' maxLength={11} />)}
 ```
 
+##### 9、去除input输入框会有下拉缓存的问题
 
+<Input placeholder='请输入课程名称' maxLength={20} autoComplete="off" />
+
+添加`autoComplete="off"`
 
 ### **9、modal对话框问题**
 
