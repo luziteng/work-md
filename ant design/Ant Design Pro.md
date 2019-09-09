@@ -483,6 +483,12 @@ export default options;
 
 添加`autoComplete="off"`
 
+##### 10、使用form绑定rules问题
+
+​	 在同一文件下，不同的form表单都是用了rules， `form.validateFields((err,values)=>{if(!err)})`触发校验，会将页面中的所有的rules校验，所以弹窗表单，可以放在不同的js文件中。
+
+​	使用form绑定搜索框，如果在同一表单中还用form绑定rules，要避免使用 `form.validateFields((err,values)=>{if(!err)})`否则会出现函数不执行的情况。
+
 ### **9、modal对话框问题**
 
 1、使用`destroyOnClose`属性在关闭时销毁 Modal 里的子元素，重打开modal时便会重新渲染。
@@ -820,5 +826,7 @@ function beforeUpload(file) {
 
 解决方式：`e.preventDefault();`
 
+##### 8、表单添加的样式不生效的问题
 
+​	原因在<Form.Item>中添加了`layout="inline"`
 

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+        body{
+            margin:0;
+            padding:0;
+        }
+        .contentBox{
+            margin:100px auto;
+            width:200px;
+            height: 200px;
+        }
+        .peopleBox{
+            position: absolute;
+            width:200px;
+            height: 200px;
+        }
+        .peopleBox img{
+            max-height: 200px;
+            max-width: 200px;
+        }
+
+        .animateBorder{
+            width:152px;
+            height:3px;
+            /*background-color:#F4A721;*/
+            border-radius:3px;
+            position: absolute;
+            top:66px;
+            left:0;
+            background: -webkit-linear-gradient(90deg,rgba(244,167,33,1) 0%,rgba(244,167,33,0) 100%);
+        }
+ /*
+ **
+ *语法：@keyframes animationname {keyframes-selector {css-styles;}}
+ *animationname 必需的。定义animation的名称。
+ *keyframes-selector    必需的。动画持续时间的百分比。
+    合法值：
+
+    0-100%
+    from (和0%相同)
+    to (和100%相同)
+
+    注意： 您可以用一个动画keyframes-selectors。
+ *css-styles    必需的。一个或多个合法的CSS样式属性
+ * *
+  */
+    @-webkit-keyframes bounce-up {
+
+        25% {
+            -webkit-transform: translateY(66px);
+        }
+
+        50%, 100% {
+            -webkit-transform: translateY(0);
+        }
+        75% {
+            -webkit-transform: translateY(-66px);
+        }
+
+    }
+
+
+    @keyframes bounce-up {
+
+        25% {
+            transform: translateY(66px);
+        }
+
+        50%, 100% {
+            transform: translateY(0);
+        }
+        75% {
+            transform: translateY(-66px);
+        }
+
+    }
+
+
+    .animateBorder{
+        -webkit-animation: bounce-up 1.8s linear infinite;
+        animation: bounce-up 1.8s linear infinite;
+
+    }
+        
+
+    .secondBox{
+        margin:100px auto;
+        width:300px;
+        height:300px;
+        border-radius:50%;
+        box-shadow:#F4A721 0 0 0 2px;
+        position:relative;
+    }
+    
+    .xiongerPicture{
+        width: 300px;
+        height: 300px;
+        border-radius:50%;
+        
+    }
+
+    .laserLine{
+      width:150px;
+      height:300px;
+      overflow:hidden;
+      position:absolute;
+      left:50%;
+      top:50%;
+      margin:-150px;
+      transform-origin:150px 150px;
+      animation-name:scan;
+      animation-duration:5s;
+      animation-timing-function:linear;
+      animation-iteration-count:infinite;
+    }
+    .laserLineInset{
+      width:300px;
+      height:300px;
+      border-radius:50%;
+      position:absolute;
+      background-image:-webkit-linear-gradient(-30deg,rgba(0,0,0,0),rgba(255,0,0,0),#FF9800  72%);
+      clip:rect(0,150px,300px,0px);
+      transform:rotate(135deg);
+    }
+
+    @keyframes scan{
+      0%{
+        transform:rotate(0deg);
+      }
+      100%{
+        transform:rotate(-360deg);
+      }
+    }
+    </style>
+</head>
+<body>
+<!-- 第一种方式 -->
+    <div class='contentBox'>
+        <div class='peopleBox'>
+            <img src="../img/person.png" alt="人脸" />
+            <span class='animateBorder'></span>
+        </div>
+    </div>
+<!-- 第二种方式 -->
+    <div class='secondBox'>
+        <img src="../img/xionger.jpg" alt="熊脸" class='xiongerPicture'/>
+         <div class="laserLine">
+            <div class="laserLineInset"></div>
+          </div>
+    </div>
+</body>
+</html>
